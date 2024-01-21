@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
 
     def create
       @prototype = Prototype.find(params[:prototype_id])
+      puts "Prototype found: #{@prototype.inspect}" # デバッグプリントを追加
       @comment = @prototype.comments.build(comment_params.merge(user_id: current_user.id, prototype_id: @prototype.id))
       
 
