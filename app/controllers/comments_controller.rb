@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
     def create
-      @prototype = Prototype.find(params[:prototype_id])
+      @prototype = Prototype.find_by(id: params[:prototype_id])
       puts "Prototype found: #{@prototype.inspect}" # デバッグプリントを追加
       @comment = @prototype.comments.build(comment_params.merge(user_id: current_user.id))
       
