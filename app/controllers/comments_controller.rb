@@ -1,18 +1,12 @@
 class CommentsController < ApplicationController
+
   def create
-    @prototype = Prototype.find_by(id: params[:prototype_id])
+    @prototype = Prototype.find_by(params[:prototype_id])
+    @comment = @prototype.comments.build(comment_params.merge(user_id: current_user.id))
 
-    if @prototype
-      @comment = @prototype.comments.build(comment_params.merge(user_id: current_user.id))
-
-      if @comment.save
-        redirect_to prototype_path(@prototype)
-      else
-        puts "Comment not saved. Errors: #{@comment.errors.full_messages}"
-        render "prototypes/show"
-      end
+    if @comment.save
+      redirect_to prototype_path(@prototype)
     else
-      puts "Prototype not found! Params: #{params.inspect}"
       render "prototypes/show"
     end
   end
@@ -20,6 +14,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content)
+      params.require(:comment).permit(:content)
   end
 end
