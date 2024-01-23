@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create]
 
   def create
-    @prototype = Prototype.find(params[:prototype_id])
+    @prototype = Prototype.find(params[:id])
     @comment = @prototype.comments.build(comment_params)
 
     if @comment.save
