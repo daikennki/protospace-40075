@@ -1,6 +1,5 @@
 # app/controllers/comments_controller.rb
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
 
   def create
     #@prototype = Prototype.find_by(params[:prototype.id]) このコードいらなくない？
@@ -11,7 +10,7 @@ class CommentsController < ApplicationController
     else
       # コメントの保存に失敗した場合、再度showアクションを表示
       @prototype = @comment.prototype
-      @comments = @prototype.comments
+      
       render 'prototypes/show'
     end
   end
