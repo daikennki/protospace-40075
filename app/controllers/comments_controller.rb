@@ -3,8 +3,8 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create]
 
   def create
-    @prototype = Prototype.find_by(params[:prototype.id])
-    @comment = @prototype.comments.build(comment_params)
+    #@prototype = Prototype.find_by(params[:prototype.id]) このコードいらなくない？
+    @comment = Comment.new(comment_params)
 
     if @comment.save
       redirect_to prototype_path(@comment.prototype)
