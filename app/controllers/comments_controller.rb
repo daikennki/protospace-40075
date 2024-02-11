@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
     @comment = @prototype.comments.build(comment_params)
 
     if @comment.save
-      redirect_to prototype_path(@prototype), notice: 'コメントが投稿されました。'
+      redirect_to prototype_path(@comment.prototype)
     else
       # コメントの保存に失敗した場合、再度showアクションを表示
       @comments = @prototype.comments.includes(:user)
@@ -18,6 +18,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content).merge(user_id: current_user.id)
+    params.require(:comment).permit(:content).merge(user_id: current_user.id, prototype_id: params[:prototype_id])
   end
 end
