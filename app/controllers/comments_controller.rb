@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
     else
       # コメントの保存に失敗した場合、再度showアクションを表示
       @prototype = @comment.prototype
-      
+      #@comments = @prototype.comments
       render 'prototypes/show'
     end
   end
