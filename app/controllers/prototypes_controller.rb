@@ -4,7 +4,7 @@ class PrototypesController < ApplicationController
   before_action :check_user, only: [:edit, :update, :destroy]
 
   def index
-    @prototypes = Prototype.includes(:user)
+    @prototypes = Prototype.all
   end
 
   def new
@@ -12,20 +12,20 @@ class PrototypesController < ApplicationController
   end
 
   def create
-    @prototype = Prototype.new(prototype_params)
+    @prototype = current_user.prototypes.create(prototype_params)
     if @prototype.save
       # 保存成功時の処理 ルートパスに遷移
       redirect_to root_path
     else
       #保存失敗時の処理 新規登録画面に遷移
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
   def show
     #@prototype = Prototype.find(params[:id])
     @comment = Comment.new
-    @comments = @prototype.comments
+    @comments = @prototype.comments.includes(:user)
   end
 
   def edit
@@ -38,16 +38,15 @@ class PrototypesController < ApplicationController
     if @prototype.update(prototype_params)
       redirect_to prototype_path(@prototype)
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
   end
 
   def destroy
-    if @prototype.destroy
-      redirect_to root_path
-    else
+    @prototype = Prototype.find(params[:id])
+    @prototype.destroy
+
     redirect_to root_path
-    end
   end
 
   private
