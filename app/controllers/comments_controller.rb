@@ -10,6 +10,7 @@ class CommentsController < ApplicationController
       redirect_to prototype_path(@comment.prototype)
     else
       # コメントの保存に失敗した場合、再度showアクションを表示
+      @prototype = @comment.prototype
       @comments = @prototype.comments.includes(:user)
       render 'prototypes/show'
     end
